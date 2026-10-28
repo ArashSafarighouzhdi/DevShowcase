@@ -78,8 +78,23 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="border-t border-secondary/20 px-4 py-2 text-center text-xs text-muted">
-        © 2026 DevShowcase - All rights reserved.
+      <div className="flex flex-wrap items-center justify-center gap-3 border-t border-secondary/20 px-4 py-3 text-center text-xs text-muted">
+        <span>© 2026 DevShowcase - All rights reserved.</span>
+
+        <span className="hidden sm:inline">·</span>
+
+        <Link
+          href="/privacy"
+          className="transition-colors hover:text-foreground"
+        >
+          Privacy Policy
+        </Link>
+
+        <span>·</span>
+
+        <Link href="/terms" className="transition-colors hover:text-foreground">
+          Terms of Service
+        </Link>
       </div>
     </footer>
   );
