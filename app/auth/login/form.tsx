@@ -33,7 +33,7 @@ const LoginForm = () => {
     const supabase = createClient();
 
     const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
+      provider,
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
         queryParams: {

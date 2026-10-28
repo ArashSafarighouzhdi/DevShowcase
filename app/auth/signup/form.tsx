@@ -31,7 +31,7 @@ const SignUpForm = () => {
     const supabase = createClient();
 
     await supabase.auth.signInWithOAuth({
-      provider: "google",
+      provider,
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
         queryParams: {
