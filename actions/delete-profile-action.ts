@@ -1,7 +1,6 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/serverClient";
-import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/supabase/adminClient";
 
 export const DeleteProfile = async (userId: string) => {
@@ -15,9 +14,10 @@ export const DeleteProfile = async (userId: string) => {
   if (projectsError) throw projectsError;
 
   if (projects && projects.length > 0) {
-    throw new Error(
-      "You cannot delete your profile while you still have projects.",
-    );
+    return {
+      success: false,
+      message: "You cannot delete your profile while you still have projects.",
+    };
   }
   const {
     data: { user },
@@ -51,5 +51,5 @@ export const DeleteProfile = async (userId: string) => {
 
   if (signOutError) throw signOutError;
 
-  redirect("/");
+  return { success: true };
 };
