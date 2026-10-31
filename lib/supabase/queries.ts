@@ -38,8 +38,9 @@ export const getUserProfile = async (username: string) => {
 
   return await supabase
     .from("Users")
-    .select("id, username, bio, avatar, github_url")
+    .select("id, username, bio, avatar, github_url, is_deleted")
     .eq("username", username)
+    .eq("is_deleted", false)
     .single();
 };
 

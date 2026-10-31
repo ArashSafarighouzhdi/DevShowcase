@@ -2,6 +2,7 @@ import { getUserProfile, getUserProjects } from "@/lib/supabase/queries";
 import { createClient } from "@/lib/supabase/serverClient";
 import ProjectCard from "@/components/ProjectCard";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const ProfilePage = async ({
   params,
@@ -11,6 +12,9 @@ const ProfilePage = async ({
   const { user } = await params;
 
   const { data, error } = await getUserProfile(user);
+  if (error?.code === "PGRST116") {
+    redirect("/login");
+  }
 
   if (error && !error.message.includes("NEXT_REDIRECT")) {
     return <p className="px-6 py-8 text-red-500">{error.message}</p>;
