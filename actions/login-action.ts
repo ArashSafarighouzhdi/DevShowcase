@@ -8,9 +8,17 @@ import z from "zod";
 export const LogIn = async (userdata: z.infer<typeof logInSchema>) => {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.auth.signInWithPassword(userdata);
+  const { error } = await supabase.auth.signInWithPassword(userdata);
 
-  if (error) throw error;
+  if (error) {
+    return {
+      success: false as const,
+      message:
+        error.code === "invalid_credentials"
+          ? "Invalid email or password."
+          : "Something went wrong. Please try again.",
+    };
+  }
 
-  redirect("/");
+  return { success: true as const };
 };

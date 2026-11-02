@@ -9,8 +9,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const LoginForm = () => {
+  const router = useRouter();
+  const [loginError, setLoginError] = useState("");
   const {
     register,
     handleSubmit,
@@ -21,9 +25,21 @@ const LoginForm = () => {
 
   const { mutate, error, isPending } = useMutation({
     mutationFn: LogIn,
+    onSuccess: (result) => {
+      if (!result.success) {
+        setLoginError(result.message);
+        return;
+      }
+
+      setLoginError("");
+      router.replace("/");
+      router.refresh();
+    },
   });
 
   const onSubmit = (data: z.infer<typeof logInSchema>) => {
+    setLoginError("");
+
     mutate(data);
   };
 
@@ -124,9 +140,9 @@ const LoginForm = () => {
                   {...register("email")}
                 />
 
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {errors.email.message}
+                {(loginError || error) && (
+                  <p role="alert" className="text-sm text-red-500">
+                    {loginError || error?.message}
                   </p>
                 )}
               </div>
